@@ -28,14 +28,14 @@ jobs:
     #   uses: gradle/wrapper-validation-action@v1
         
     - name: Test build configuration
-      run: gradlew build --dry-run # just test build configuration
+      run: ./gradlew build --dry-run # just test build configuration
 
     - name: Gradle and Java version
       run: echo "Gradle version was ${{steps.setup-gradle.outputs.gradle-version}}\nJava version was ${{steps.setup-java.outputs.java-version}}"
     
     - name: Execute Gradle build
       id: gradle
-      run: gradlew build --scan
+      run: ./gradlew build --scan
       
     - name: "Add Build Scan URL as PR comment"
       uses: actions/github-script@v5
