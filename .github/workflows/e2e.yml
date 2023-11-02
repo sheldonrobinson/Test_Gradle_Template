@@ -12,10 +12,10 @@ jobs:
         dependency-graph: generate-and-submit
     - name: Build the app, generating a graph of dependencies required
       working-directory: .
-      run: CLASSPATH=${GITHUB_WORKSPACE}/gradle/wrapper/gradle-wrapper.jar ./gradlew build
+      run: CLASSPATH=${{ github.workspace }}/gradle/wrapper/gradle-wrapper.jar ./gradlew build
     - name: Run all checks, disabling dependency graph generation
       working-directory: .
-      run: CLASSPATH=${GITHUB_WORKSPACE}/gradle/wrapper/gradle-wrapper.jar ./gradlew check
+      run: CLASSPATH=${{ github.workspace }}/gradle/wrapper/gradle-wrapper.jar ./gradlew check
       env:
         GITHUB_DEPENDENCY_GRAPH_ENABLED: false
 
