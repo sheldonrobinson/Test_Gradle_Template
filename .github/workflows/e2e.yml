@@ -28,7 +28,7 @@ jobs:
       run: chmod ugo+x ./gradlew
       
     - name: Update gradle wrapper
-      run: gradle wrapper
+      run: ./gradlew wrapper
 
     - name: Validate gradle wrapper
       uses: gradle/wrapper-validation-action@v1
@@ -41,7 +41,7 @@ jobs:
     
     - name: Execute Gradle build
       id: gradle
-      run: ./gradlew build --scan --warning-mode none
+      run: ./gradlew build --warning-mode none
       
     - name: "Add Build Scan URL as PR comment"
       uses: actions/github-script@v5
