@@ -20,15 +20,15 @@ jobs:
       uses: gradle/gradle-build-action@v2
       id: setup-gradle
       with: 
-        gradle-version: wrapper
+        gradle-version: 8.4
         cache-read-only: ${{ github.ref != 'refs/heads/main' && github.ref != 'refs/heads/release' }}
         gradle-home-cache-cleanup: true
 
     - name: Run chmod to make gradlew executable
       run: chmod ugo+x ./gradlew
       
-    - name: Update gradle wrapper
-      run: ./gradlew wrapper
+    - name: Update Gradle Wrapper
+      uses: gradle-update/update-gradle-wrapper-action@v1
 
     - name: Validate gradle wrapper
       uses: gradle/wrapper-validation-action@v1
