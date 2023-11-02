@@ -24,26 +24,20 @@ jobs:
         cache-read-only: ${{ github.ref != 'refs/heads/main' && github.ref != 'refs/heads/release' }}
         gradle-home-cache-cleanup: true
 
-    # - name: Validate gradle wrapper
-    #   uses: gradle/wrapper-validation-action@v1
-
     - name: Run chmod to make gradlew executable
       run: chmod ugo+x ./gradlew
-
-    - name: Check for gradle-wrapper.jar
-      run: echo "$(ls -al gradle/wrapper/gradle-wrapper.jar)"
       
     - name: Update gradle wrapper
       run: gradle wrapper
+
+    - name: Validate gradle wrapper
+      uses: gradle/wrapper-validation-action@v1
       
     - name: Test build configuration
       run:  ./gradlew build --dry-run # just test build configuration
 
     - name: Gradle and Java version
       run: echo "Gradle version was ${{steps.setup-gradle.outputs.gradle-version}}\nJava version was ${{steps.setup-java.outputs.java-version}}"
-
-    - name: Find gradlew
-      run: echo "$(find gradlew)"
     
     - name: Execute Gradle build
       id: gradle
