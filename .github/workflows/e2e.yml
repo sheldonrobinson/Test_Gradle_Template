@@ -11,7 +11,7 @@ jobs:
       with:
         dependency-graph: generate-and-submit
     - name: Build the app, generating a graph of dependencies required
-      run: ./gradlew :my-app:assemble
+      run: ./gradlew build
     - name: Run all checks, disabling dependency graph generation
       run: ./gradlew check
       env:
