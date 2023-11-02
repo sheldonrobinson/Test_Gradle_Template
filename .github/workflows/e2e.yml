@@ -36,7 +36,7 @@ jobs:
     - name: Gradle and Java version
       run: echo "Gradle version was ${{steps.setup-gradle.outputs.gradle-version}}\nJava version was ${{steps.setup-java.outputs.java-version}}"
 
-    - name Find gradlew
+    - name: Find gradlew
       run: echo "$(find gradlew)"
     
     - name: Execute Gradle build
