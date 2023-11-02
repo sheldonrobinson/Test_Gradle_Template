@@ -12,10 +12,10 @@ jobs:
         dependency-graph: generate-and-submit
     - name: Build the app, generating a graph of dependencies required
       working-directory: .
-      run: ./gradlew build
+      run: ./gradle build
     - name: Run all checks, disabling dependency graph generation
       working-directory: .
-      run: ./gradlew check
+      run: ./gradle check
       env:
         GITHUB_DEPENDENCY_GRAPH_ENABLED: false
 
