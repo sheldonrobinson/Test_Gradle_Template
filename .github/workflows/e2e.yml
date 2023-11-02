@@ -35,10 +35,12 @@ jobs:
 
     - name: Gradle and Java version
       run: echo "Gradle version was ${{steps.setup-gradle.outputs.gradle-version}}\nJava version was ${{steps.setup-java.outputs.java-version}}"
+
+    run: echo "\`find gradlew`"
     
     - name: Execute Gradle build
       id: gradle
-      run: gradle build --scan
+      run: gradle buildEnvironment
       
     - name: "Add Build Scan URL as PR comment"
       uses: actions/github-script@v5
