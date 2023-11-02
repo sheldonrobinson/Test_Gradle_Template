@@ -34,7 +34,7 @@ jobs:
       run: echo "$(ls -al gradle/wrapper/gradle-wrapper.jar)"
       
     - name: Test build configuration
-      run:  gradle build --dry-run # just test build configuration
+      run:  ./gradlew build --dry-run # just test build configuration
 
     - name: Gradle and Java version
       run: echo "Gradle version was ${{steps.setup-gradle.outputs.gradle-version}}\nJava version was ${{steps.setup-java.outputs.java-version}}"
