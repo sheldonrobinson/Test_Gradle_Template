@@ -27,18 +27,18 @@ jobs:
     # - name: Validate gradle wrapper
     #   uses: gradle/wrapper-validation-action@v1
 
-    - name: Run chmod to make gradlew executable
-      run: chmod +x ./gradlew
+    # - name: Run chmod to make gradlew executable
+    #   run: chmod +x ./gradlew
       
     - name: Test build configuration
-      run: ./gradlew build --dry-run # just test build configuration
+      run:  gradle build --dry-run # just test build configuration
 
     - name: Gradle and Java version
       run: echo "Gradle version was ${{steps.setup-gradle.outputs.gradle-version}}\nJava version was ${{steps.setup-java.outputs.java-version}}"
     
     - name: Execute Gradle build
       id: gradle
-      run: ./gradlew build --scan
+      run: gradle build --scan
       
     - name: "Add Build Scan URL as PR comment"
       uses: actions/github-script@v5
