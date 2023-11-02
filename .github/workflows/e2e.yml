@@ -2,50 +2,20 @@ name: Run Gradle on PRs
 on: [pull_request, push]
 
 jobs:
-  gradle:
+  build:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
-    - name: Setup Java
-      uses: actions/setup-java@v3
-      id: setup-java
-      with:
-        distribution: 'temurin'
-        java-version: '11'
-        java-package: 'jdk'
-        architecture: 'x64'
-        check-latest: true
-
-    - name: Setup Gradle
+    - name: Setup Gradle to generate and submit dependency graphs
       uses: gradle/gradle-build-action@v2
-      id: setup-gradle
-      with: 
-        gradle-version: 8.4
+      with:
         dependency-graph: generate-and-submit
+    - name: Build the app, generating a graph of dependencies required
+      run: ./gradlew :my-app:assemble
     - name: Run all checks, disabling dependency graph generation
       run: ./gradlew check
       env:
-        GITHUB_DEPENDENCY_GRAPH_ENABLED: false   
-    - name: Execute Gradle build
-      id: gradle
-      run: ./gradlew build --warning-mode none
-    - name: "Add Build Scan URL as PR comment"
-      uses: actions/github-script@v5
-      if: github.event_name == 'pull_request' && failure()
-      with:
-        github-token: ${{secrets.GITHUB_TOKEN}}
-        script: |
-          github.rest.issues.createComment({
-            issue_number: context.issue.number,
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            body: '❌ ${{ github.workflow }} failed: ${{ steps.gradle.outputs.build-scan-url }}'
-          }) 
-    - name: Upload build reports
-      uses: actions/upload-artifact@v3
-      with:
-        name: build-reports
-        path: build/reports/
+        GITHUB_DEPENDENCY_GRAPH_ENABLED: false
 
 
 
