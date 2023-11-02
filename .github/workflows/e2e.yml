@@ -21,30 +21,14 @@ jobs:
       id: setup-gradle
       with: 
         gradle-version: 8.4
-        cache-read-only: ${{ github.ref != 'refs/heads/main' && github.ref != 'refs/heads/release' }}
-        gradle-home-cache-cleanup: true
-
-    - name: Run chmod to make gradlew executable
-      run: chmod ugo+x ./gradlew
-      
-    - name: Update Gradle Wrapper
-      uses: gradle-update/update-gradle-wrapper-action@v1
-
-    # - name: Validate gradle wrapper
-    #   uses: gradle/wrapper-validation-action@v1
-      
-    - name: Test build configuration
-      working-directory: ./
-      run:  ./gradlew build --dry-run --warning-mode none # just test build configuration
-
-    - name: Gradle and Java version
-      run: echo "Gradle version was ${{steps.setup-gradle.outputs.gradle-version}}\nJava version was ${{steps.setup-java.outputs.java-version}}"
-    
+        dependency-graph: generate-and-submit
+    - name: Run all checks, disabling dependency graph generation
+      run: ./gradlew check
+      env:
+        GITHUB_DEPENDENCY_GRAPH_ENABLED: false   
     - name: Execute Gradle build
       id: gradle
-      working-directory: ./
       run: ./gradlew build --warning-mode none
-      
     - name: "Add Build Scan URL as PR comment"
       uses: actions/github-script@v5
       if: github.event_name == 'pull_request' && failure()
@@ -56,8 +40,7 @@ jobs:
             owner: context.repo.owner,
             repo: context.repo.repo,
             body: '❌ ${{ github.workflow }} failed: ${{ steps.gradle.outputs.build-scan-url }}'
-          })
-          
+          }) 
     - name: Upload build reports
       uses: actions/upload-artifact@v3
       with:
