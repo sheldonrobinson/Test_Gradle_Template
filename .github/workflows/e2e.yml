@@ -26,7 +26,10 @@ jobs:
 
     # - name: Validate gradle wrapper
     #   uses: gradle/wrapper-validation-action@v1
-        
+
+    - name: Run chmod to make gradlew executable
+      run: chmod +x ./gradlew
+      
     - name: Test build configuration
       run: ./gradlew build --dry-run # just test build configuration
 
